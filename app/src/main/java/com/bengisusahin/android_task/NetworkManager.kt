@@ -15,12 +15,11 @@ class NetworkManager {
 
     fun makeLoginRequest() {
         val mediaType = "application/json".toMediaTypeOrNull()
-        val body = RequestBody.create(mediaType, "{\"username\":\"365\",\"password\":\"1\"}")
         val request = Request.Builder()
             .url("https://api.baubuddy.de/dev/index.php/v1/tasks/select")
-            .post(body)
-            .addHeader("Authorization", "Bearer 412a3e956e2f1d7fbdb308411cfb7fb27346ad4d")
-            .addHeader("Content-Type", "application/json")
+            .get()
+            .addHeader("Authorization", "Bearer 90517c072fcf3906841c79e28cc15f0ac27cca28")
+            .addHeader("Content-Type", mediaType.toString())
             .build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -30,6 +29,7 @@ class NetworkManager {
 
             override fun onResponse(call: Call, response: Response) {
                 val responseBody = response.body?.string()
+                println("Response body: $responseBody")
                 // Handle response
             }
         })
