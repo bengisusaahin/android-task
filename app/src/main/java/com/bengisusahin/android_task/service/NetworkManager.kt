@@ -1,4 +1,4 @@
-package com.bengisusahin.android_task
+package com.bengisusahin.android_task.service
 
 import okhttp3.Call
 import okhttp3.Callback
@@ -14,7 +14,7 @@ class NetworkManager {
 
     private val client = OkHttpClient()
 
-    fun makeLoginRequest() {
+    fun authorizationRequest() {
         val mediaType = "application/json".toMediaTypeOrNull()
         val body = RequestBody.create(mediaType, "{\"username\":\"365\",\"password\":\"1\"}")
         val request = Request.Builder()

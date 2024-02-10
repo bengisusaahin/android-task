@@ -1,7 +1,9 @@
-package com.bengisusahin.android_task
+package com.bengisusahin.android_task.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bengisusahin.android_task.R
+import com.bengisusahin.android_task.service.NetworkManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +29,6 @@ class MainActivity : AppCompatActivity() {
         //        "workingTime": null,
         //        "isAvailableInTimeTrackingKioskMode": false
         //    },
-        networkManager.makeLoginRequest()
+        networkManager.authorizationRequest()
     }
 }
