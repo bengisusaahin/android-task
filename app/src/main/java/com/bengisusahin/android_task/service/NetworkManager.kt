@@ -10,10 +10,13 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 
-class NetworkManager {
+class NetworkManager(private val listener : NetworkTaskListener) {
 
     private val client = OkHttpClient()
 
+    interface NetworkTaskListener {
+        fun onResult(result: String?)
+    }
     fun authorizationRequest() {
         val mediaType = "application/json".toMediaTypeOrNull()
         val body = RequestBody.create(mediaType, "{\"username\":\"365\",\"password\":\"1\"}")
@@ -43,16 +46,17 @@ class NetworkManager {
                 client.newCall(tasksRequest).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
                         val result = response.body?.string()
-                        println(result)
+                        //println(result)
+                        listener.onResult(result)
                     }
 
                     override fun onFailure(call: Call, e: IOException) {
-                        TODO("Not yet implemented")
+                        listener.onResult(null)
                     }
                 })
             }
             override fun onFailure(call: Call, e: IOException) {
-                TODO("Not yet implemented")
+                listener.onResult(null)
             }
         })
     }

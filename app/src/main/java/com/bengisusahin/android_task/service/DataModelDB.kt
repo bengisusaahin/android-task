@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.bengisusahin.android_task.model.DataModel
 
-@Database(entities = [DataModel::class], version = 1)
+@Database(entities = [DataModel::class], version = 1, exportSchema = false)
 abstract class DataModelDB : RoomDatabase() {
     abstract fun dataDao() : DataModelDao
 

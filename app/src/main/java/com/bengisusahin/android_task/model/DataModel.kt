@@ -23,11 +23,11 @@ data class DataModel(
     @ColumnInfo(name = "parentTaskID")
     val parentTaskID: String,
     @ColumnInfo(name = "preplanningBoardQuickSelect")
-    val preplanningBoardQuickSelect: Any,
+    val preplanningBoardQuickSelect: String,
     @ColumnInfo(name = "colorCode")
-    val colorCode: String,
+    val colorCode: String?,
     @ColumnInfo(name = "workingTime")
-    val workingTime: Any,
+    val workingTime: String,
     @ColumnInfo(name = "isAvailableInTimeTrackingKioskMode")
     val isAvailableInTimeTrackingKioskMode: Boolean
 )

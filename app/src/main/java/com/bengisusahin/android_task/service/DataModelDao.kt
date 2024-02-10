@@ -14,7 +14,7 @@ interface DataModelDao {
     suspend fun insertAll(dataModels: List<DataModel>)
 
     @Query("SELECT * FROM data_models")
-    suspend fun getAllDataModels() : List<DataModel>
+    fun getAllDataModels() : List<DataModel>
 
     @Query("SELECT * FROM data_models WHERE uuid = :itemId")
     suspend fun getDataModel(itemId : Int) : DataModel
