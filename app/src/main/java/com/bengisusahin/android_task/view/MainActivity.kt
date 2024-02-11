@@ -15,47 +15,43 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
     private lateinit var binding: ActivityMainBinding
-
-
-    //private val networkManager = NetworkManager(listener = )
-    private var dataModels: ArrayList<DataModel>? = null
-    private var recyclerViewAdapter: RecyclerViewAdapter? = null
+    private lateinit var networkManager: NetworkManager
+    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        //networkManager.authorizationRequest()
+        networkManager = NetworkManager(this)
+        networkManager.authorizationRequest()
 
         //RecyclerView
-        val layoutManager:RecyclerView.LayoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
-        recyclerViewAdapter =
-            dataModels?.let { RecyclerViewAdapter(it) } // Assuming the adapter takes a context
+        recyclerViewAdapter = RecyclerViewAdapter(ArrayList())
         binding.recyclerView.adapter = recyclerViewAdapter
-        createDataList()
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun createDataList() {
+    override fun onResult(result: List<DataModel>?) {
+        result?.let { dataModels ->
+            saveDataToRoomDatabase(dataModels)
+            runOnUiThread {
+                recyclerViewAdapter?.setData(result)
+            }
+        }
+    }
+
+    private fun saveDataToRoomDatabase(dataModels: List<DataModel>) {
         val db = Room.databaseBuilder(
             applicationContext,
             DataModelDB::class.java, "datamodeldatabase"
         ).build()
         val dataDao = db.dataDao()
+
         CoroutineScope(Dispatchers.IO).launch {
-            // Perform database operations here
-            val dataModels = dataDao.getAllDataModels()
-            withContext(Dispatchers.Main) {
-                // Update UI elements on the main thread
-                recyclerViewAdapter?.setData(dataModels)
-
-            }
+            dataDao.insertAll(dataModels)
         }
-
-
     }
 }

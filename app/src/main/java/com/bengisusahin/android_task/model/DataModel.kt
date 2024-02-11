@@ -16,7 +16,7 @@ data class DataModel(
     val sort: String,
     @ColumnInfo(name = "wageType")
     val wageType: String,
-    @ColumnInfo(name = "businessUnitKey")
+    @ColumnInfo(name = "BusinessUnitKey")
     val businessUnitKey: String,
     @ColumnInfo(name = "businessUnit")
     val businessUnit: String,

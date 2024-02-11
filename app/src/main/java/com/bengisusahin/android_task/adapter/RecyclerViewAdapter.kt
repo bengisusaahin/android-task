@@ -37,7 +37,7 @@ class RecyclerViewAdapter(private val dataList : ArrayList<DataModel>) : Recycle
         if (!colorCode.isNullOrEmpty()) {
             holder.itemView.setBackgroundColor(Color.parseColor(colorCode))
         } else {
-            holder.itemView.setBackgroundColor(Color.WHITE)
+            holder.itemView.setBackgroundColor(Color.BLACK)
         }
     }
 
