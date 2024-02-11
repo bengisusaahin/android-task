@@ -45,7 +45,7 @@ class NetworkManager(private val listener : NetworkTaskListener) {
                 client.newCall(tasksRequest).enqueue(object : Callback {
                     override fun onResponse(call: Call, response: Response) {
                         val result = response.body?.string()
-                        println(result)
+                        //println(result)
                         val dataModels = parseJsonToDataModels(result)
                         listener.onResult(dataModels)
                     }

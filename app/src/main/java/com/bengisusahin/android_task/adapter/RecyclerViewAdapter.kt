@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bengisusahin.android_task.R
 import com.bengisusahin.android_task.model.DataModel
 
-class RecyclerViewAdapter(private val dataList : ArrayList<DataModel>) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+class RecyclerViewAdapter(private var dataList : ArrayList<DataModel>) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textTask: TextView = itemView.findViewById(R.id.text_task)
         val textTitle: TextView = itemView.findViewById(R.id.text_title)
@@ -51,6 +51,9 @@ class RecyclerViewAdapter(private val dataList : ArrayList<DataModel>) : Recycle
         notifyDataSetChanged()
     }
 
-
+    fun filterList(filteredData: List<DataModel>) {
+        dataList = filteredData as ArrayList<DataModel>
+        notifyDataSetChanged() // Adapter'a veri değiştiğini bildir
+    }
 
 }
