@@ -10,10 +10,10 @@
     </item>
 
     <item android:id="@+id/qr_scan_scanner"
-        android:title="Qrscanscanner"
-        android:icon="@drawable/qr_scan_scanner_icon"
+        android:title="Scan Qr Code"
+        android:icon="@drawable/scan"
         app:actionViewClass="android.widget.Button"
-        app:showAsAction="ifRoom"
+        app:showAsAction="ifRoom|collapseActionView"
         >
     </item>
 </menu>

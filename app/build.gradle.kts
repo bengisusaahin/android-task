@@ -67,5 +67,8 @@ dependencies {
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 
+    //Qr-Code-Scanner
+    implementation("com.google.zxing:zxing-parent:3.5.3")
+    implementation("com.journeyapps:zxing-android-embedded:4.2.0")
 
 }
