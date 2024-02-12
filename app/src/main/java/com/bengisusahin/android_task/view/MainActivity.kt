@@ -41,6 +41,9 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
         recyclerViewAdapter = RecyclerViewAdapter(ArrayList())
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        swipeRefreshData()
+
     }
 
     override fun onResult(result: List<DataModel>?) {
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
             runOnUiThread {
                 recyclerViewAdapter?.setData(result)
                 this@MainActivity.dataModels = result
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         }
     }
@@ -129,4 +133,11 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
         }
         recyclerViewAdapter.filterList(filteredList)
     }
+
+    private fun swipeRefreshData(){
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            networkManager.authorizationRequest()
+        }
+    }
+
 }

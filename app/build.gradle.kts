@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.bengisusahin.android_task"
     compileSdk = 34
 
@@ -69,6 +70,10 @@ dependencies {
 
     //Qr-Code-Scanner
     implementation("com.google.zxing:zxing-parent:3.5.3")
-    implementation("com.journeyapps:zxing-android-embedded:4.2.0")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    //Swiperefreshlayout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    
 
 }

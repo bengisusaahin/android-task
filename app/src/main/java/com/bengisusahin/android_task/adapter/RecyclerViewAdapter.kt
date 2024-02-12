@@ -55,5 +55,4 @@ class RecyclerViewAdapter(private var dataList : ArrayList<DataModel>) : Recycle
         dataList = filteredData as ArrayList<DataModel>
         notifyDataSetChanged() // Adapter'a veri değiştiğini bildir
     }
-
 }
