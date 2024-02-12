@@ -38,6 +38,7 @@ class RecyclerViewAdapter(private var dataList : ArrayList<DataModel>) : Recycle
             holder.itemView.setBackgroundColor(Color.parseColor(colorCode))
         } else {
             holder.itemView.setBackgroundColor(Color.BLACK)
+            holder.colorCode.text= "null"
         }
     }
 
@@ -49,10 +50,5 @@ class RecyclerViewAdapter(private var dataList : ArrayList<DataModel>) : Recycle
         this.dataList.clear()
         this.dataList.addAll(dataList)
         notifyDataSetChanged()
-    }
-
-    fun filterList(filteredData: List<DataModel>) {
-        dataList = filteredData as ArrayList<DataModel>
-        notifyDataSetChanged() // Adapter'a veri değiştiğini bildir
     }
 }

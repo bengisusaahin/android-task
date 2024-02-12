@@ -10,16 +10,23 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.bengisusahin.android_task.R
 import com.bengisusahin.android_task.adapter.RecyclerViewAdapter
 import com.bengisusahin.android_task.databinding.ActivityMainBinding
 import com.bengisusahin.android_task.model.DataModel
 import com.bengisusahin.android_task.service.DataModelDB
+import com.bengisusahin.android_task.service.DataRefreshWorker
 import com.bengisusahin.android_task.service.NetworkManager
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
     private lateinit var binding: ActivityMainBinding
@@ -43,31 +50,20 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         swipeRefreshData()
-
+        startDataRefreshWorker()
     }
 
     override fun onResult(result: List<DataModel>?) {
         result?.let { dataModels ->
-            saveDataToRoomDatabase(dataModels)
             runOnUiThread {
-                recyclerViewAdapter?.setData(result)
-                this@MainActivity.dataModels = result
+                recyclerViewAdapter.setData(dataModels)
+                this@MainActivity.dataModels = dataModels
                 binding.swipeRefreshLayout.isRefreshing = false
             }
         }
     }
 
-    private fun saveDataToRoomDatabase(dataModels: List<DataModel>) {
-        val db = Room.databaseBuilder(
-            applicationContext,
-            DataModelDB::class.java, "datamodeldatabase"
-        ).build()
-        val dataDao = db.dataDao()
 
-        CoroutineScope(Dispatchers.IO).launch {
-            dataDao.insertAll(dataModels)
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.option_menu, menu)
@@ -82,7 +78,7 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
                     val filteredList = dataModels.filter { dataModel ->
                         dataModel.title.contains(searchText, ignoreCase = true)
                     }
-                    recyclerViewAdapter.filterList(filteredList)
+                    recyclerViewAdapter.setData(filteredList)
                 }
                 return true
             }
@@ -92,7 +88,7 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
                     val filteredList = dataModels.filter { dataModel ->
                         dataModel.toString().toLowerCase().contains(searchText.toLowerCase())
                     }
-                    recyclerViewAdapter.filterList(filteredList)
+                    recyclerViewAdapter.setData(filteredList)
                 }
                 return true
             }
@@ -131,13 +127,32 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
         val filteredList = dataModels.filter { dataModel ->
             dataModel.title.contains(query, ignoreCase = true)
         }
-        recyclerViewAdapter.filterList(filteredList)
+        recyclerViewAdapter.setData(filteredList)
     }
 
     private fun swipeRefreshData(){
         binding.swipeRefreshLayout.setOnRefreshListener {
             networkManager.authorizationRequest()
         }
+    }
+
+    private fun startDataRefreshWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val dataRefreshRequest = PeriodicWorkRequestBuilder<DataRefreshWorker>(
+            repeatInterval = 60, // 60 dakika
+            repeatIntervalTimeUnit = TimeUnit.MINUTES
+        )
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "DataRefreshWorker",
+            ExistingPeriodicWorkPolicy.KEEP,
+            dataRefreshRequest
+        )
     }
 
 }
