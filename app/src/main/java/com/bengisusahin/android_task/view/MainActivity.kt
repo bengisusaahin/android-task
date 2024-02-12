@@ -8,24 +8,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.bengisusahin.android_task.R
 import com.bengisusahin.android_task.adapter.RecyclerViewAdapter
 import com.bengisusahin.android_task.databinding.ActivityMainBinding
 import com.bengisusahin.android_task.model.DataModel
-import com.bengisusahin.android_task.service.DataModelDB
 import com.bengisusahin.android_task.service.DataRefreshWorker
 import com.bengisusahin.android_task.service.NetworkManager
 import com.google.zxing.integration.android.IntentIntegrator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
@@ -141,10 +138,7 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val dataRefreshRequest = PeriodicWorkRequestBuilder<DataRefreshWorker>(
-            repeatInterval = 60, // 60 dakika
-            repeatIntervalTimeUnit = TimeUnit.MINUTES
-        )
+        val dataRefreshRequest = PeriodicWorkRequestBuilder<DataRefreshWorker>(60,TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
 
@@ -153,6 +147,13 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
             ExistingPeriodicWorkPolicy.KEEP,
             dataRefreshRequest
         )
+
+//        WorkManager.getInstance(this).getWorkInfoByIdLiveData(dataRefreshRequest.id).observe(this,
+//            Observer {
+//                if (it.state == WorkInfo.State.RUNNING){
+//                    println("running")
+//                }
+//            })
     }
 
 }

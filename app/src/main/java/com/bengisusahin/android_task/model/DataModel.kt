@@ -35,16 +35,3 @@ data class DataModel(
     @PrimaryKey(autoGenerate = true)
     var uuid: Int = 0
 }
-//example json data
-//"task": "10 Aufbau",
-//"title": "Gerüst montieren",
-//"description": "Gerüste montieren.",
-//"sort": "0",
-//"wageType": "10 Aufbau",
-//"BusinessUnitKey": "Gerüstbau",
-//"businessUnit": "Gerüstbau",
-//"parentTaskID": "",
-//"preplanningBoardQuickSelect": null,
-// "colorCode": "#1df70e",
-//"workingTime": null,
-//"isAvailableInTimeTrackingKioskMode": false
