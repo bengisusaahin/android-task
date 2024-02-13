@@ -1,23 +1,16 @@
 package com.bengisusahin.android_task.view
 
-import android.app.Activity
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.bengisusahin.android_task.R
 import com.bengisusahin.android_task.adapter.RecyclerViewAdapter
@@ -25,7 +18,6 @@ import com.bengisusahin.android_task.databinding.ActivityMainBinding
 import com.bengisusahin.android_task.model.DataModel
 import com.bengisusahin.android_task.service.DataRefreshWorker
 import com.bengisusahin.android_task.service.NetworkManager
-import com.google.zxing.integration.android.IntentIntegrator
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {

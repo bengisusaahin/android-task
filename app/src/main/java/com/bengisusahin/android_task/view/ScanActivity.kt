@@ -11,9 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.bengisusahin.android_task.R
 import com.google.zxing.integration.android.IntentIntegrator
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanIntentResult
-import com.journeyapps.barcodescanner.ScanOptions
 
 class ScanActivity : AppCompatActivity() {
 
