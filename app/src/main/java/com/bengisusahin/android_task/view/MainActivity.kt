@@ -63,6 +63,14 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
         val searchView = searchItem?.actionView as SearchView
         searchView.queryHint
 
+        val scannedText = intent.getStringExtra("scanned_text")
+        if (!scannedText.isNullOrEmpty()) {
+            searchView.setQuery(scannedText, false)
+            searchView.post {
+                searchView.isIconified = false
+            }
+        }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let { searchText ->

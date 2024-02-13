@@ -48,15 +48,13 @@ class ScanActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
                 result.contents?.let { scannedText ->
-                    showScannedText(scannedText)
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("scanned_text",scannedText)
+                    startActivity(intent)
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "Scan cancelled", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun showScannedText(text: String) {
-        Toast.makeText(this, "Scanned Text: $text", Toast.LENGTH_LONG).show()
     }
 }
