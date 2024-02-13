@@ -1,13 +1,16 @@
 package com.bengisusahin.android_task.view
 
 import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.Constraints
@@ -28,9 +31,9 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var networkManager: NetworkManager
+    private lateinit var scanActivity: ScanActivity
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
     private lateinit var dataModels: List<DataModel>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,7 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
+        scanActivity = ScanActivity()
         swipeRefreshData()
         startDataRefreshWorker()
     }
@@ -59,8 +63,6 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
             }
         }
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.option_menu, menu)
@@ -90,43 +92,19 @@ class MainActivity : AppCompatActivity(),NetworkManager.NetworkTaskListener {
                 return true
             }
         })
-
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.qr_scan_scanner -> {
-                startQRScanner()
+                val intent = Intent(this, ScanActivity::class.java)
+                startActivity(intent)
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
         }
     }
-    private fun startQRScanner() {
-        IntentIntegrator(this).initiateScan()
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IntentIntegrator.REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-                result.contents?.let { scannedText ->
-                    performSearch(scannedText)
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "Scan cancelled", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun performSearch(query: String) {
-        val filteredList = dataModels.filter { dataModel ->
-            dataModel.title.contains(query, ignoreCase = true)
-        }
-        recyclerViewAdapter.setData(filteredList)
-    }
-
     private fun swipeRefreshData(){
         binding.swipeRefreshLayout.setOnRefreshListener {
             networkManager.authorizationRequest()
