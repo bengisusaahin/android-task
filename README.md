@@ -16,7 +16,7 @@ When clicking the search button, the screen does not move above.
 - The app should offer a menu item that allows scanning for QR-Codes
   - Upon successful scan, the search query should be set to the scanned text
     
-<img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_cameraPermission.png" alt="1" width="250"/> <img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_scan.png" alt="1" width="250"/>
+<img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_cameraPermission.png" alt="1" width="240"/> <img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_scan.png" alt="1" width="240"/> <img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_QrCode.png" alt="1" width="240"/> <img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_testScanned.png" alt="1" width="240"/>
 
 - In order to refresh the data, the app should offer:
   - a swipe-2-refresh functionality
