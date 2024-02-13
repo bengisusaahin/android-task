@@ -1,3 +1,32 @@
+# Task Completed
+
+- Request the resources located at `https://api.baubuddy.de/dev/index.php/v1/tasks/select`
+- Store them in an appropriate data structure that allows using the application offline
+- Display all items in a list showing `task`, `title`, `description` and `colorCode` (which should be a view colored according to `colorCode`)
+<img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_viewOfData.png" alt="1" width="250"/>
+
+- The app should offer a search menu item that allows searching for any of the class properties (even those, that are not visible to the user directly) 
+
+<img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_homeWithToolbar.png" alt="2" width="250"/>
+
+When clicking the search button, the screen does not move above.
+
+<img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_clickedTheSearchButton.png" alt="1" width="250"/> <img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_filteredData.png" alt="2" width="250"/> 
+
+- The app should offer a menu item that allows scanning for QR-Codes
+  - Upon successful scan, the search query should be set to the scanned text
+    
+<img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_cameraPermission.png" alt="1" width="250"/> <img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_scan.png" alt="1" width="250"/>
+
+- In order to refresh the data, the app should offer:
+  - a swipe-2-refresh functionality
+  - and a worker that requests the resources from above every 60 minutes
+<img src="https://github.com/bengisusaahin/android-task/blob/master/Screenshots/Screenshot_swipeRefreshData.png" alt="1" width="250"/>
+
+
+
+
+
 Hello dear Android dev prospect!
 
 This repository is supposed to act as a playground for your submission.
